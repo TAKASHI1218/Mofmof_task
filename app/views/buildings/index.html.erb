@@ -18,9 +18,9 @@
     <% @buildings.each do |building| %>
       <tr>
         <td><%= building.name %></td>
-        <td><%= building.rent %></td>
+        <td><%= building.rent %>円</td>
         <td><%= building.address %></td>
-        <td><%= building.age %></td>
+        <td><%= building.age %>年</td>
         <td><%= building.info %></td>
         <td><%= link_to '詳細', building %></td>
         <td><%= link_to '編集', edit_building_path(building) %></td>
