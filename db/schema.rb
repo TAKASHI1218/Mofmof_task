@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20191016102115) do
     t.integer  "age"
     t.text     "info"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "updated_at", null: false　
   end
 
   create_table "stations", force: :cascade do |t|

@@ -5,6 +5,7 @@ class BuildingsController < ApplicationController
   # GET /buildings.json
   def index
     @buildings = Building.all
+
   end
 
   # GET /buildings/1
@@ -15,6 +16,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/new
   def new
     @building = Building.new
+    @station = Station.new
   end
 
   # GET /buildings/1/edit
@@ -65,6 +67,7 @@ class BuildingsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_building
       @building = Building.find(params[:id])
+      @station = Station.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
