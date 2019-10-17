@@ -36,7 +36,33 @@
     <%= f.text_area :info %>
   </div>
 
-  <div class="actions">
-    <%= f.submit %>
+<%= f.fields_for :station ,(@station) do |station| %>
+<%#= f.fields_for :stations do |station| %>
+
+
+  <div class="field">
+    <%= station.label :index_number %>
+    <%= station.number_field :index_number %>
   </div>
+
+  <div class="field">
+    <%= station.label :line_name %>
+    <%= station.text_area :line_name %>
+  </div>
+
+  <div class="field">
+   <%= station.label :station_name %>
+   <%= station.text_area :station_name %>
+ </div>
+
+  <div class="field">
+    <%= station.label :how_long %>
+    <%= station.number_field :how_long %>分
+  </div>
+<% end %>
+
+
+ <div class="actions">
+  <%= f.submit %>
+</div>
 <% end %>

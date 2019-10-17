@@ -1,22 +1,24 @@
 class BuildingsController < ApplicationController
   before_action :set_building, only: [:show, :edit, :update, :destroy]
+  # before_action :set_station, only: [:show, :edit, :update, :destroy]
 
   # GET /buildings
   # GET /buildings.json
   def index
     @buildings = Building.all
-
+    @stations = Station.all
   end
 
   # GET /buildings/1
   # GET /buildings/1.json
   def show
+    @stations = @building.stations
   end
 
   # GET /buildings/new
   def new
     @building = Building.new
-    @station = Station.new
+#    @station = Station.new
   end
 
   # GET /buildings/1/edit
@@ -27,14 +29,14 @@ class BuildingsController < ApplicationController
   # POST /buildings.json
   def create
     @building = Building.new(building_params)
-
-    respond_to do |format|
-      if @building.save
-        format.html { redirect_to @building, notice: 'Building was successfully created.' }
-        format.json { render :show, status: :created, location: @building }
+  #  @station = Station.new(station_params)
+    if params[:back]
+      render :new
+    else
+      if @building.save# && @station.save
+        redirect_to buildings_path
       else
-        format.html { render :new }
-        format.json { render json: @building.errors, status: :unprocessable_entity }
+        render :new
       end
     end
   end
@@ -43,12 +45,12 @@ class BuildingsController < ApplicationController
   # PATCH/PUT /buildings/1.json
   def update
     respond_to do |format|
-      if @building.update(building_params)
+      if @building.update(building_params) && @station.update(station_params)
         format.html { redirect_to @building, notice: 'Building was successfully updated.' }
-        format.json { render :show, status: :ok, location: @building }
+        # format.json { render :show, status: :ok, location: @building }
       else
         format.html { render :edit }
-        format.json { render json: @building.errors, status: :unprocessable_entity }
+        # format.json { render json: @building.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -56,22 +58,41 @@ class BuildingsController < ApplicationController
   # DELETE /buildings/1
   # DELETE /buildings/1.json
   def destroy
-    @building.destroy
-    respond_to do |format|
-      format.html { redirect_to buildings_url, notice: 'Building was successfully destroyed.' }
-      format.json { head :no_content }
+    @building.destroy && @station.destroy
+    redirect_to buildings_path
     end
-  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_building
       @building = Building.find(params[:id])
-      @station = Station.find(params[:id])
     end
+
+    # def set_station
+    #   @station = Station.find(params[:id])
+    # end
+
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def building_params
-      params.require(:building).permit(:name, :rent, :address, :age, :info)
+      params.require(:building).permit(
+        :name,
+        :rent,
+        :address,
+        :age,
+        :info,
+        stations_attributes: [
+          :id,
+          :index_number,
+          :line_name,
+          :station_name,
+          :how_long
+        ]
+      )
     end
+
+#    def station_params
+#      params.require(:station).permit(:index_number, :line_name, :station_name, :how_long)
+#    end
 end
