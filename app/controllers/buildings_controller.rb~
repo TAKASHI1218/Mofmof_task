@@ -1,12 +1,12 @@
 class BuildingsController < ApplicationController
   before_action :set_building, only: [:show, :edit, :update, :destroy]
-
   # before_action :set_station, only: [:show, :edit, :update, :destroy]
 
   # GET /buildings
   # GET /buildings.json
   def index
     @buildings = Building.all
+    @stations = Station.all
   end
 
   # GET /buildings/1
@@ -18,10 +18,8 @@ class BuildingsController < ApplicationController
   # GET /buildings/new
   def new
     @building = Building.new
-    @building.stations.build()
-
+    @station = Station.new
   end
-
 
   # GET /buildings/1/edit
   def edit
@@ -31,10 +29,11 @@ class BuildingsController < ApplicationController
   # POST /buildings.json
   def create
     @building = Building.new(building_params)
+    @station = Station.new(station_params)
     if params[:back]
       render :new
     else
-      if @building.save
+      if @building.save && @station.save
         redirect_to buildings_path
       else
         render :new
@@ -59,9 +58,9 @@ class BuildingsController < ApplicationController
   # DELETE /buildings/1
   # DELETE /buildings/1.json
   def destroy
-    @building.destroy
+    @building.destroy && @station.destroy
     redirect_to buildings_path
-  end
+    end
 
 
   private
@@ -77,23 +76,9 @@ class BuildingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def building_params
-      params.require(:building).permit(
-        :name,
-        :rent,
-        :address,
-        :age,
-        :info,
-        stations_attributes: [
-          :id,
-          :index_number,
-          :line_name,
-          :station_name,
-          :how_long
-        ]
-      )
+      params.require(:building).permit(:name, :rent, :address, :age, :info)
     end
-
-#    def station_params
-#      params.require(:station).permit(:index_number, :line_name, :station_name, :how_long)
-#    end
+    def station_params
+      params.require(:station).permit(:index_number, :line_name, :station_name, :how_long)
+    end
 end
