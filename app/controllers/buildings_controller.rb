@@ -46,7 +46,7 @@ class BuildingsController < ApplicationController
   # PATCH/PUT /buildings/1.json
   def update
     respond_to do |format|
-      if @building.update(building_params) && @station.update(station_params)
+      if @building.update(building_params)
         format.html { redirect_to @building, notice: 'Building was successfully updated.' }
         # format.json { render :show, status: :ok, location: @building }
       else
