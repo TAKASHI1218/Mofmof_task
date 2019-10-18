@@ -18,8 +18,7 @@ class BuildingsController < ApplicationController
   # GET /buildings/new
   def new
     @building = Building.new
-    @building.stations.build()
-
+    5.times {@building.stations.build}
   end
 
 

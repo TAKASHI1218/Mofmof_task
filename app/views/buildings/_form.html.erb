@@ -38,12 +38,11 @@
 
 <hr>
 
-  <% 1.upto(2) do |i| %>
-     <h4><%= "最寄り駅#{i}" %></h4>
-
-
-
+   <% count = 0  %>
    <%= f.fields_for :stations do |station| %>
+
+    <h4>最寄り駅<%= count += 1  %></h4>
+
     <div class="field">
       <%= station.label :路線名 %>
       <%= station.text_area :line_name %>
@@ -57,9 +56,11 @@
     <div class="field">
       <%= station.label :徒歩分数 %>
       <%= station.number_field :how_long %>分
-    </div>
-   <% end %>
+    </div><br><br>
+
   <% end %>
+
+
 
 
   <div class="actions">
